@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/MaximSurovtsev/stack_example.svg?branch=master)](https://travis-ci.org/MaximSurovtsev/stack_example) 
+[![Build Status](https://travis-ci.org/BinaryTreesImplementation/SplayTree.svg?branch=master)](https://travis-ci.org/BinaryTreesImplementation/SplayTree) 
 
 TEST
 ```
