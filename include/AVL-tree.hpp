@@ -197,7 +197,7 @@ void AVL_tree<T>::insert(Node<T> * & node, const T& value)
 	}
 	while (cur && cur->parent)
 	{
-		cur = balance(cur->parent);
+		balance(cur->parent);
 		cur = cur->parent;
 	}
 }
