@@ -1,22 +1,22 @@
 #include <catch.hpp>
 
-#include "AVL-tree.hpp"
+#include "RBT.hpp"
 
 /*           10            */
 TEST_CASE("insert1", "[root]") 
 {
-   AVL_tree<int> tree;
+   Tree<int> tree;
    tree.insert(10);
    Node<int> * node = tree.search(10);
    REQUIRE(tree.left_(node) == nullptr);
    REQUIRE(tree.right_(node) == nullptr);
    REQUIRE(tree.parent_(node) == nullptr);
-   REQUIRE(tree.key_(node) == 10);
-   REQUIRE(tree.height_(node) == 1);
+   REQUIRE(tree.value_(node) == 10);
+   REQUIRE(tree.color_(node) == BLACK);
    REQUIRE(tree.count_() == 1);
 }
 
-/*        10             9
+/*/*        10             9
          /             /   \       
         9      ->     8     10        
       /
@@ -119,3 +119,4 @@ TEST_CASE("delete3", "[node->right]")
    REQUIRE(tree.height_(tree.search(10)) == 2);
    REQUIRE(tree.count_() == 2);
 }
+*/
