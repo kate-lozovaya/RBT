@@ -301,7 +301,7 @@ Node<T> * AVL_tree<T>::search(const T& value)const
 			break;
 		else
 		{
-			if (value > curEl->value)
+			if (value > curEl->key)
 				curEl = curEl->right;
 			else curEl = curEl->left;
 		}
