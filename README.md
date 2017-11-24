@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/BinaryTreesImplementation/AVL-tree.svg?branch=master)](https://travis-ci.org/BinaryTreesImplementation/AVL-tree) 
+[![Build Status](https://travis-ci.org/BinaryTreesImplementation/RedBlackTree.svg?branch=master)](https://travis-ci.org/BinaryTreesImplementation/RedBlackTree) 
 
 TEST
 ```
