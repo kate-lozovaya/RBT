@@ -21,7 +21,6 @@ private:
 
 	void deleteNode(Node<T> * node);
 
-	unsigned int height_(Node<T> * node);
 	int bfactor(Node<T> * node);
 	void fixheight(Node<T> * node);
 
@@ -49,6 +48,8 @@ public:
 
 	void print(std::ostream & stream);
 	
+	unsigned int height_(Node<T> * node);
+	
 	Node<T> * left_(Node<T> * node)
 	{
 		return node->left;
@@ -64,10 +65,6 @@ public:
 	T key_(Node<T> * node)
 	{
 		return node->key;
-	}
-	unsigned int height_(Node<T> * node)
-	{
-		return node->height;
 	}
 	unsigned int count_()
 	{
