@@ -6,7 +6,7 @@ HunterGate(
     SHA1 "57d07480686f82ddc916a5980b4f2a18e5954c2b"
 )
 
-project(splay)
+project(AVL-tree)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
