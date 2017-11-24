@@ -43,6 +43,26 @@ public:
 	~Tree();
 
 	Node<T> * search(const T& value)const;
+	Node<T> * left_(Node<T> * node)
+	{
+		return node->left;
+	}
+	Node<T> * right_(Node<T> * node)
+	{
+		return node->right;
+	}
+	Node<T> * parent_(Node<T> * node)
+	{
+		return node->parent;
+	}
+	Color color_(Node<T> * node)
+	{
+		return node->color;
+	}
+	T value_(Node<T> * node)
+	{
+		return node->value;
+	}
 
 	friend ostream& operator << (ostream&stream, Tree<T> & tree)
 	{
