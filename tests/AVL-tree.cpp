@@ -1,6 +1,6 @@
 #include <catch.hpp>
 
-#include "splay.h"
+#include "AVL-tree.hpp"
 
 TEST_CASE("insert_root", "[root]") {
    SplayTree<int> testSplayTree;
