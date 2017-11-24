@@ -48,6 +48,31 @@ public:
 	Node<T> * search(const T& value)const;
 
 	void print(std::ostream & stream);
+	
+	Node<T> * left_(Node<T> * node)
+	{
+		return node->left;
+	}
+	Node<T> * right_(Node<T> * node)
+	{
+		return node->right;
+	}
+	Node<T> * parent_(Node<T> * node)
+	{
+		return node->parent;
+	}
+	T key_(Node<T> * node)
+	{
+		return node->key;
+	}
+	unsigned int height_(Node<T> * node)
+	{
+		return node->height;
+	}
+	unsigned int count_()
+	{
+		return count;
+	}
 };
 
 template<typename T>
