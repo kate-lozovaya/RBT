@@ -76,7 +76,7 @@ public:
 };
 
 template<typename T>
-AVL_tree<T>::AVL_tree() : root{ nullptr }, count = 0 {};
+AVL_tree<T>::AVL_tree() : root{ nullptr }, count{ 0 } {};
 template<typename T>
 AVL_tree<T>::~AVL_tree()
 {
