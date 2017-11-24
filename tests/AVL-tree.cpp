@@ -3,7 +3,7 @@
 #include "AVL-tree.hpp"
 
 /*           10            */
-TEST_CASE("insert", "[root]") 
+TEST_CASE("insert1", "[root]") 
 {
    AVL_tree<int> tree;
    tree.insert(10);
@@ -21,7 +21,7 @@ TEST_CASE("insert", "[root]")
         9      ->     8     10        
       /
      8                           */
-TEST_CASE("insert", "[rotate_right]") 
+TEST_CASE("insert2", "[rotate_right]") 
 {
    AVL_tree<int> tree;
    tree.insert(10);
@@ -45,7 +45,7 @@ TEST_CASE("insert", "[rotate_right]")
         9           ->    8     10        
           \
            10                     */
-TEST_CASE("insert", "[rotate_left]") 
+TEST_CASE("insert3", "[rotate_left]") 
 {
    AVL_tree<int> tree;
    tree.insert(8);
