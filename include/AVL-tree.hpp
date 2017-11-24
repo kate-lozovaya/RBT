@@ -24,10 +24,10 @@ private:
 	int bfactor(Node<T> * node);
 	void fixheight(Node<T> * node);
 
-	Node<T> * rotate_left(Node<T> * node);
-	Node<T> * rotate_right(Node<T> * node);
+	void rotate_left(Node<T> * node);
+	void rotate_right(Node<T> * node);
 
-	Node<T> * balance(Node<T> * node);
+	void balance(Node<T> * node);
 
 	void insert(Node<T>* & node, const T& value);
 
@@ -107,7 +107,7 @@ void AVL_tree<T>::fixheight(Node<T> * node)
 	node->height = (h_l > h_r ? h_l : h_r) + 1;
 }
 template<typename T>
-Node<T> * AVL_tree<T>::rotate_left(Node<T> * node)
+void AVL_tree<T>::rotate_left(Node<T> * node)
 {
 	Node<T> * r = node->right;
 	if (node == root)
@@ -126,10 +126,9 @@ Node<T> * AVL_tree<T>::rotate_left(Node<T> * node)
 	
 	fixheight(node);
 	fixheight(r);
-	return r;
 }
 template<typename T>
-Node<T> * AVL_tree<T>::rotate_right(Node<T> * node)
+void AVL_tree<T>::rotate_right(Node<T> * node)
 {
 	Node<T> * l = node->left;
 	if (node == root)
@@ -148,23 +147,22 @@ Node<T> * AVL_tree<T>::rotate_right(Node<T> * node)
 
 	fixheight(node);
 	fixheight(l);
-	return l;
 }
 template<typename T>
-Node<T> *  AVL_tree<T>::balance(Node<T> * node)
+void  AVL_tree<T>::balance(Node<T> * node)
 {
 	fixheight(node);
 	if (bfactor(node) == 2)
 	{
 		if (bfactor(node->right) < 0)
-			node->right = rotate_right(node->right);
-		return rotate_left(node);
+			rotate_right(node->right);
+		rotate_left(node);
 	}
 	if (bfactor(node) == -2)
 	{
 		if (bfactor(node->left) > 0)
-			node->left = rotate_left(node->left);
-		return rotate_right(node);
+			rotate_left(node->left);
+		rotate_right(node);
 	}
 }
 template<typename T>
