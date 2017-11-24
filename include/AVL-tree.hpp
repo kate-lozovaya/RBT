@@ -222,11 +222,10 @@ void AVL_tree<T>::remove(Node<T>* & node, const T& value)
 			remove(node->right, value);
 		else if (value == node->key)
 		{
-			count--;
 			Node<T> * cur_p = node->parent;
 			if (!node->left && !node->right)
 			{
-
+				count--;
 				if (node->parent->left == node)
 				{
 					node->parent->left = nullptr;
@@ -251,6 +250,7 @@ void AVL_tree<T>::remove(Node<T>* & node, const T& value)
 
 			else if (node->left && !node->right)
 			{
+				count--;
 				if (node->parent->left == node)
 				{
 					Node<T> * parent = node->parent;
