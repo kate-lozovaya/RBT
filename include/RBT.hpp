@@ -63,6 +63,10 @@ public:
 	{
 		return node->value;
 	}
+	T count_()
+	{
+		return count;
+	}
 
 	friend ostream& operator << (ostream&stream, Tree<T> & tree)
 	{
