@@ -58,13 +58,10 @@ public:
 		Node<T> * node = search(key);
 		return node->parent;
 	}
-	Color color_(Node<T> * node)
+	Color color_(T key)
 	{
+		Node<T> * node = search(key);
 		return node->color;
-	}
-	T value_(Node<T> * node)
-	{
-		return node->value;
 	}
 	Node<T> * root_()
 	{
