@@ -57,8 +57,8 @@ TEST_CASE("insert3", "[red parent, red uncle]")
    REQUIRE(tree.parent_(7) == tree.search(10));
    REQUIRE(tree.parent_(9) == tree.search(7));
    REQUIRE(tree.parent_(12) == tree.search(10));
-   REQUIRE(tree.color_(7) == RED);
-   REQUIRE(tree.color_(9) == BLACK);
+   REQUIRE(tree.color_(7) == BLACK);
+   REQUIRE(tree.color_(9) == RED);
    REQUIRE(tree.color_(10) == BLACK);
    REQUIRE(tree.color_(12) == BLACK);
    REQUIRE(tree.root_() == tree.search(10));
@@ -156,7 +156,7 @@ TEST_CASE("insert6", "[red parent, black uncle || !uncle (turn left, turn right)
    REQUIRE(tree.left_(12) == tree.search(11));
    REQUIRE(tree.right_(12) == tree.search(13));
    REQUIRE(tree.parent_(10) == nullptr);
-   REQUIRE(tree.parent_(7) == tree.search(8));
+   REQUIRE(tree.parent_(7) == tree.search(10));
    REQUIRE(tree.parent_(11) == tree.search(12));
    REQUIRE(tree.parent_(12) == tree.search(10));
    REQUIRE(tree.parent_(13) == tree.search(12));
