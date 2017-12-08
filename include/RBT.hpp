@@ -43,16 +43,19 @@ public:
 	~Tree();
 
 	Node<T> * search(const T& value)const;
-	Node<T> * left_(Node<T> * node)
+	Node<T> * left_(T key)
 	{
+		Node<T> * node = search(key);
 		return node->left;
 	}
-	Node<T> * right_(Node<T> * node)
+	Node<T> * right_(T key)
 	{
+		Node<T> * node = search(key);
 		return node->right;
 	}
-	Node<T> * parent_(Node<T> * node)
+	Node<T> * parent_(T key)
 	{
+		Node<T> * node = search(key);
 		return node->parent;
 	}
 	Color color_(Node<T> * node)
@@ -63,7 +66,11 @@ public:
 	{
 		return node->value;
 	}
-	T count_()
+	Node<T> * root_()
+	{
+		return root;
+	}
+	unsigned int count_()
 	{
 		return count;
 	}
