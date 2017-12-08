@@ -10,7 +10,6 @@ TEST_CASE("insert1", "[root]")
    REQUIRE(tree.left_(10) == nullptr);
    REQUIRE(tree.right_(10) == nullptr);
    REQUIRE(tree.parent_(10) == nullptr);
-   REQUIRE(tree.value_(10) == 10);
    REQUIRE(tree.color_(10) == BLACK);
    REQUIRE(tree.root_() == tree.search(10));
    REQUIRE(tree.count_() == 1);
