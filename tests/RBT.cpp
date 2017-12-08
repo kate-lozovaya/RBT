@@ -2,47 +2,170 @@
 
 #include "RBT.hpp"
 
-/*           10            */
+/*           10 B          */
 TEST_CASE("insert1", "[root]") 
 {
    Tree<int> tree;
    tree.insert(10);
-   Node<int> * node = tree.search(10);
-   REQUIRE(tree.left_(node) == nullptr);
-   REQUIRE(tree.right_(node) == nullptr);
-   REQUIRE(tree.parent_(node) == nullptr);
-   REQUIRE(tree.value_(node) == 10);
-   REQUIRE(tree.color_(node) == BLACK);
+   REQUIRE(tree.left_(10) == nullptr);
+   REQUIRE(tree.right_(10) == nullptr);
+   REQUIRE(tree.parent_(10) == nullptr);
+   REQUIRE(tree.value_(10) == 10);
+   REQUIRE(tree.color_(10) == BLACK);
+   REQUIRE(tree.root_() == tree.search(10));
    REQUIRE(tree.count_() == 1);
 }
 
-/*        10             9
-         /             /   \       
-        9      ->     8     10        
-      /
-     8                           */
+/*        10 B            
+        /    \               
+      9 R     12 R          
+                              */
+TEST_CASE("insert2", "[black parent]") 
+{
+   Tree<int> tree;
+   tree.insert(10);
+   tree.insert(9);
+   tree.insert(12);
+   REQUIRE(tree.left_(10) == tree.search(9));
+   REQUIRE(tree.right_(10) == tree.search(12));
+   REQUIRE(tree.parent_(10) == nullptr);
+   REQUIRE(tree.parent_(9) == tree.search(10));
+   REQUIRE(tree.parent_(12) == tree.search(10));
+   REQUIRE(tree.color_(9) == RED);
+   REQUIRE(tree.color_(10) == BLACK);
+   REQUIRE(tree.color_(12) == RED);
+   REQUIRE(tree.root_() == tree.search(10));
+   REQUIRE(tree.count_() == 3);
+}
 
+/*        10 B                  10 B
+        /    \                /     \
+      7 R     12 R   ->     7 B      12 B
+        \                     \
+          9 R                   9 R          */
+TEST_CASE("insert3", "[red parent, red uncle]") 
+{
+   Tree<int> tree;
+   tree.insert(10);
+   tree.insert(7);
+   tree.insert(12);
+   tree.insert(9);
+   REQUIRE(tree.left_(7) == nullptr);
+   REQUIRE(tree.right_(7) == tree.search(9));
+   REQUIRE(tree.left_(10) == tree.search(7));
+   REQUIRE(tree.right_(10) == tree.search(12));
+   REQUIRE(tree.parent_(10) == nullptr);
+   REQUIRE(tree.parent_(7) == tree.search(10));
+   REQUIRE(tree.parent_(9) == tree.search(7));
+   REQUIRE(tree.parent_(12) == tree.search(10));
+   REQUIRE(tree.color_(7) == RED);
+   REQUIRE(tree.color_(9) == BLACK);
+   REQUIRE(tree.color_(10) == BLACK);
+   REQUIRE(tree.color_(12) == BLACK);
+   REQUIRE(tree.root_() == tree.search(10));
+   REQUIRE(tree.count_() == 4);
+}
 
-/*  8                        9
-      \                    /   \       
-        9           ->    8     10        
-          \
-           10                     */
+/*        10 B                  10 B
+        /    \                /     \
+      7 B     12 B   ->     8 B      12 B
+        \                  /   \
+          9 R             7 R   9 R
+         /                    
+        8 R                   
+                                              */
+TEST_CASE("insert4", "[red parent, black uncle || !uncle (turn right, turn left)]") 
+{
+   Tree<int> tree;
+   tree.insert(10);
+   tree.insert(7);
+   tree.insert(12);
+   tree.insert(9);
+   tree.insert(8);
+   REQUIRE(tree.left_(8) == tree.search(7));
+   REQUIRE(tree.right_(8) == tree.search(9));
+   REQUIRE(tree.left_(10) == tree.search(8));
+   REQUIRE(tree.right_(10) == tree.search(12));
+   REQUIRE(tree.left_(12) == nullptr);
+   REQUIRE(tree.right_(12) == nullptr);
+   REQUIRE(tree.parent_(10) == nullptr);
+   REQUIRE(tree.parent_(7) == tree.search(8));
+   REQUIRE(tree.parent_(8) == tree.search(10));
+   REQUIRE(tree.parent_(9) == tree.search(8));
+   REQUIRE(tree.parent_(12) == tree.search(10));
+   REQUIRE(tree.color_(7) == RED);
+   REQUIRE(tree.color_(8) == BLACK);
+   REQUIRE(tree.color_(9) == RED);
+   REQUIRE(tree.color_(10) == BLACK);
+   REQUIRE(tree.color_(12) == BLACK);
+   REQUIRE(tree.root_() == tree.search(10));
+   REQUIRE(tree.count_() == 5);
+}
 
+/*        10 B                  10 B
+        /    \                /     \
+      7 B     12 B   ->     8 B      12 B
+        \                  /   \
+          8 R             7 R   9 R
+            \                   
+             9 R                   
+                                              */
+TEST_CASE("insert5", "[red parent, black uncle || !uncle (turn left)]") 
+{
+   Tree<int> tree;
+   tree.insert(10);
+   tree.insert(7);
+   tree.insert(12);
+   tree.insert(8);
+   tree.insert(9);
+   REQUIRE(tree.left_(8) == tree.search(7));
+   REQUIRE(tree.right_(8) == tree.search(9));
+   REQUIRE(tree.left_(10) == tree.search(8));
+   REQUIRE(tree.right_(10) == tree.search(12));
+   REQUIRE(tree.parent_(10) == nullptr);
+   REQUIRE(tree.parent_(7) == tree.search(8));
+   REQUIRE(tree.parent_(8) == tree.search(10));
+   REQUIRE(tree.parent_(9) == tree.search(8));
+   REQUIRE(tree.parent_(12) == tree.search(10));
+   REQUIRE(tree.color_(7) == RED);
+   REQUIRE(tree.color_(8) == BLACK);
+   REQUIRE(tree.color_(9) == RED);
+   REQUIRE(tree.color_(10) == BLACK);
+   REQUIRE(tree.color_(12) == BLACK);
+   REQUIRE(tree.root_() == tree.search(10));
+   REQUIRE(tree.count_() == 5);
+}
 
-/*        9                9
-        /   \     ->     /
-       8     10         8        */
-
-
-/*        9                9
-        /   \     ->     /   \
-       8     10         7     10    
-      /                          
-     7                            */
-
-
-/*        9                10
-        /   \     ->     /
-       8     10         8        */
-
+/*        10 B                  10 B
+        /    \                /     \
+      7 B     13 B   ->     7 B      12 B
+             /                      /   \
+          11 R                    11 R   13 R
+            \                   
+             12 R                   
+                                              */
+TEST_CASE("insert6", "[red parent, black uncle || !uncle (turn left, turn right)]") 
+{
+   Tree<int> tree;
+   tree.insert(10);
+   tree.insert(7);
+   tree.insert(13);
+   tree.insert(11);
+   tree.insert(12);
+   REQUIRE(tree.left_(10) == tree.search(7));
+   REQUIRE(tree.right_(10) == tree.search(12));
+   REQUIRE(tree.left_(12) == tree.search(11));
+   REQUIRE(tree.right_(12) == tree.search(13));
+   REQUIRE(tree.parent_(10) == nullptr);
+   REQUIRE(tree.parent_(7) == tree.search(8));
+   REQUIRE(tree.parent_(11) == tree.search(12));
+   REQUIRE(tree.parent_(12) == tree.search(10));
+   REQUIRE(tree.parent_(13) == tree.search(12));
+   REQUIRE(tree.color_(7) == BLACK);
+   REQUIRE(tree.color_(10) == BLACK);
+   REQUIRE(tree.color_(11) == RED);
+   REQUIRE(tree.color_(12) == BLACK);
+   REQUIRE(tree.color_(13) == RED);
+   REQUIRE(tree.root_() == tree.search(10));
+   REQUIRE(tree.count_() == 5);
+}
