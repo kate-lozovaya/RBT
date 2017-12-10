@@ -233,7 +233,10 @@ void Tree<T>::deleteEl(const T& value)
 		return;
 
 	if (root->value == value)
+	{
 		root = deleteRoot(root);
+		root->color = BLACK;
+	}
 	else
 	{
 		parent = root;
