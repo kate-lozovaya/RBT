@@ -236,6 +236,7 @@ void Tree<T>::deleteEl(const T& value)
 	{
 		root = deleteRoot(root);
 		root->color = BLACK;
+		root->parent = nullptr;
 	}
 	else
 	{
