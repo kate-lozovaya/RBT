@@ -258,7 +258,6 @@ void Tree<T>::deleteEl(const T& value)
 			else cur = parent->right;
 		}
 	}
-	count--;
 }
 template<typename T>
 Node<T> * Tree<T>::deleteRoot(Node<T> * head)
@@ -266,6 +265,7 @@ Node<T> * Tree<T>::deleteRoot(Node<T> * head)
 	Node<T>* cur = nullptr, *parent = nullptr;
 	if (head)
 	{
+		count--;
 		cur = head->right;
 		if (!cur)
 		{
