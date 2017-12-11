@@ -208,7 +208,7 @@ TEST_CASE("insert7", "[red parent, black uncle || !uncle (turn right)]")
          7 B      12 B
                  /   \
                11 R   13 R      */
-TEST_CASE("delete1", "[]") 
+/*TEST_CASE("delete1", "[]") 
 {
    Tree<int> tree;
    tree.insert(10);
@@ -233,7 +233,7 @@ TEST_CASE("delete1", "[]")
    REQUIRE(tree.color_(13) == RED);
    REQUIRE(tree.root_() == tree.search(10));
    REQUIRE(tree.count_() == 5);
-}
+}*/
 
 /*           10 B                         11 B
            /     \                      /     \
@@ -242,7 +242,7 @@ TEST_CASE("delete1", "[]")
                12 B   14 B                  12 B   14 B 
               /             
             11 R                                              */
-TEST_CASE("delete2", "[root]") 
+/*TEST_CASE("delete2", "[root]") 
 {
    Tree<int> tree;
    tree.insert(10);
@@ -268,4 +268,4 @@ TEST_CASE("delete2", "[root]")
    REQUIRE(tree.color_(14) == BLACK);
    REQUIRE(tree.root_() == tree.search(11));
    REQUIRE(tree.count_() == 5);
-}
+}*/
