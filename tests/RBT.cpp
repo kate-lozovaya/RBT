@@ -216,7 +216,7 @@ TEST_CASE("delete1", "[]")
    tree.insert(13);
    tree.insert(12);
    tree.insert(11);
-   tree.deleteEl(15);
+   tree.deleteElement(15);
    REQUIRE(tree.left(10) == tree.search(7));
    REQUIRE(tree.right(10) == tree.search(12));
    REQUIRE(tree.left(12) == tree.search(11));
@@ -251,7 +251,7 @@ TEST_CASE("delete2", "[root]")
    tree.insert(12);
    tree.insert(13);
    tree.insert(11);
-   tree.deleteEl(10);
+   tree.deleteElement(10);
    REQUIRE(tree.left(11) == tree.search(7));
    REQUIRE(tree.right(11) == tree.search(13));
    REQUIRE(tree.left(13) == tree.search(12));
