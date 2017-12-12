@@ -153,8 +153,8 @@ void Tree<T>::insert_(Node<T> * node, const T& key)
 	while (cur)
 	{
 		parent = cur;
-		/*if (key == cur->key_)
-			throw logic_error("There is this element in the tree\n");*/
+		if (key == cur->key_)
+			throw logic_error("There is this element in the tree\n");
 		if (key < cur->key_)
 			cur = cur->left_;
 		else //if (key > node->key_)
