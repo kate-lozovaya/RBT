@@ -242,7 +242,7 @@ TEST_CASE("delete1", "[]")
                12 B   14 B                  12 B   14 B 
               /             
             11 R                                              */
-TEST_CASE("delete2", "[root]") 
+TEST_CASE("delete2", "[root || node->right]") 
 {
    Tree<int> tree;
    tree.insert(10);
@@ -269,3 +269,60 @@ TEST_CASE("delete2", "[root]")
    REQUIRE(tree.root() == tree.search(11));
    REQUIRE(tree.count() == 5);
 }
+
+/*        10 B                  10 B
+        /    \                /     \
+      7 B     12 B   ->     7 B      12 B
+             /   \                      \
+          11 R    13 R                   13 R           
+                                              */
+TEST_CASE("delete3", "[leaf]") 
+{
+   Tree<int> tree;
+   tree.insert(10);
+   tree.insert(7);
+   tree.insert(12);
+   tree.insert(13);
+   tree.insert(11);
+   tree.deleteElement(11);
+   REQUIRE(tree.left(10) == tree.search(7));
+   REQUIRE(tree.right(10) == tree.search(12));
+   REQUIRE(tree.left(12) == nullptr);
+   REQUIRE(tree.right(12) == tree.search(13));
+   REQUIRE(tree.parent(10) == nullptr);
+   REQUIRE(tree.parent(7) == tree.search(10));
+   REQUIRE(tree.parent(12) == tree.search(10));
+   REQUIRE(tree.parent(13) == tree.search(12));
+   REQUIRE(tree.color(7) == BLACK);
+   REQUIRE(tree.color(10) == BLACK);
+   REQUIRE(tree.color(12) == BLACK);
+   REQUIRE(tree.color(13) == RED);
+   REQUIRE(tree.root() == tree.search(10));
+   REQUIRE(tree.count() == 4);
+}
+
+/*        10 B                  10 B
+        /    \                /     \
+      7 B     12 B   ->     7 B      11 B
+             /                       
+          11 R                                 */
+TEST_CASE("delete4", "[node->left]") 
+{
+   Tree<int> tree;
+   tree.insert(10);
+   tree.insert(7);
+   tree.insert(12);
+   tree.insert(11);
+   tree.deleteElement(12);
+   REQUIRE(tree.left(10) == tree.search(7));
+   REQUIRE(tree.right(10) == tree.search(11));
+   REQUIRE(tree.parent(10) == nullptr);
+   REQUIRE(tree.parent(7) == tree.search(10));
+   REQUIRE(tree.parent(11) == tree.search(10));
+   REQUIRE(tree.color(7) == BLACK);
+   REQUIRE(tree.color(10) == BLACK);
+   REQUIRE(tree.color(11) == BLACK);
+   REQUIRE(tree.root() == tree.search(10));
+   REQUIRE(tree.count() == 3);
+}
+
