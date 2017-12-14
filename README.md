@@ -1,9 +1,14 @@
 [![Build Status](https://travis-ci.org/BinaryTreesImplementation/RedBlackTree.svg?branch=master)](https://travis-ci.org/BinaryTreesImplementation/RedBlackTree) 
 
-TEST
-```
-cmake -H. -B_builds -DBUILD_TESTS=ON -DBUILD_EXAMPLES=ON
-cmake --build _builds
-cmake --build _builds --target test -- ARGS=--verbose
-_builds/example
-```
+# Red black tree
+---
+## Краткое описание
+Red-black-tree — это самобалансирующееся бинарное дерево поиска, гарантирующее логарифмический рост высоты дерева от числа узлов и быстрое выполнение основных операций дерева поиска: добавление, удаление и поиск узла. Сбалансированность достигается за счёт введения дополнительного атрибута узла дерева — «цвета». Этот атрибут может принимать одно из двух возможных значений — «чёрный» или «красный».
+
+## Реализация
+Данное бинарное дерево поиска реализовано на языке программирования С++. 
+
+Методы доступные для использования: 
++ Insert
++ Delete
++ Search
