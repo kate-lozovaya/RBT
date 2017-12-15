@@ -279,6 +279,7 @@ void Tree<T>::deleteElement(const T& key)
 				}
 			}
 		}
+		cur->left_->parent_ = cur->parent_;
 	}
 	else
 	{
