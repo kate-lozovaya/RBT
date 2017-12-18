@@ -281,7 +281,7 @@ void Tree<T>::deleteElement(const T& key)
 	}
 	else
 	{
-		Node<T> * min = cur->right_;
+		Node* min = cur->right_;
 		while (min->left_)
 			min = min->left_;
 		T a = min->key_;
