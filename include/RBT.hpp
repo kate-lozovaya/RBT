@@ -5,12 +5,24 @@ using namespace std;
 
 enum Color{ RED, BLACK, BLACK_BLACK };
 
+class Counter
+{
+protected:
+	size_t & count_()
+	{
+		static size_t counter = 0;
+		return counter;
+	}
+public:
+	Counter() { ++count_(); }
+	~Counter() { --count_(); }
+};
 
 template<typename T>
 class Tree
 {
 private:
-	struct Node
+	struct Node:public Counter
 	{
 		Node* left_;
 		Node* right_;
@@ -18,15 +30,19 @@ private:
 		Color color_;
 		T key_;
 		Node(T const & key) : key_{ key }, left_{ nullptr }, right_{ nullptr }, parent_{ nullptr }, color_{ RED } {}
+		size_t count() { return count_(); }
 	} *root_;
-	unsigned count_;
 
 	void deleteNode_(Node* node)
 	{
-		if (node == nullptr) return;
-		deleteNode_(node->left_);
-		deleteNode_(node->right_);
-		delete node;
+		if (node)
+		{
+			deleteNode_(node->left_);
+			deleteNode_(node->right_);
+			delete node;
+		}
+		if (root_->count() == 0)
+			root_ = nullptr;
 	}
 
 	ostream& print_(ostream&stream)
@@ -34,7 +50,7 @@ private:
 		print_(root_, stream, 0);
 		return stream;
 	}
-	
+
 	ostream& print_(Node* node, ostream&stream, size_t level)const
 	{
 		Node* cur = node;
@@ -61,14 +77,13 @@ private:
 		{
 			parent = cur;
 			if (key == cur->key_)
-				throw logic_error("There is this element in the tree\n");
+				return;
 			if (key < cur->key_)
 				cur = cur->left_;
 			else //if (key > node->key_)
 				cur = cur->right_;
 		}
 		cur = new Node(key);
-		count_++;
 		cur->parent_ = parent;
 		if (cur->parent_ == nullptr)
 		{
@@ -83,7 +98,7 @@ private:
 			insertBalance_(cur);
 		}
 	}
-	
+
 	void insertBalance_(Node* cur)
 	{
 		while (cur != root_ && cur->parent_->color_ == RED && cur->color_ == RED)
@@ -136,7 +151,7 @@ private:
 		node->parent_->parent_->left_->color_ = node->parent_->parent_->right_->color_ = BLACK;
 		node->parent_->parent_->color_ = RED;
 	}
-	
+
 	void rotateRight_(Node* node)
 	{
 		Node* a = node->left_;
@@ -152,7 +167,7 @@ private:
 		a->right_ = node;
 		node->parent_ = a;
 	}
-	
+
 	void rotateLeft_(Node* node)
 	{
 		Node* a = node->right_;
@@ -168,7 +183,7 @@ private:
 		a->left_ = node;
 		node->parent_ = a;
 	}
-	
+
 	Node* sibling_(Node* node)
 	{
 		if (node && node->parent_)
@@ -260,10 +275,102 @@ private:
 			}
 		}
 	}
-public:
-	Tree() : root_{ nullptr }, count_{ 0 } {}
-	~Tree() { deleteNode_(root_); }
 	
+	void deleteElement_(Node* & node, const T& key)
+	{
+		if (node)
+		{
+			if (key < node->key_)
+				deleteElement_(node->left_, key);
+			else if (key > node->key_)
+				deleteElement_(node->right_, key);
+			else if (key == node->key_)
+			{
+				Node * parent = node->parent_;
+				if (node == root_ && !node->left_ && !node->right_)
+					delete node;
+				else if (node->left_ == nullptr && node->right_ == nullptr)
+				{
+					if (node->parent_->left_ == node)
+					{
+						delete node;
+						parent->left_ = nullptr;
+					}
+					else //if (cur->parent_->right_ == cur)
+					{
+						delete node;
+						parent->right_ = nullptr;
+					}
+				}
+				else if (node->left_ != nullptr && node->right_ == nullptr)
+				{
+					Node * left = node->left_;
+					if (node->color_ == RED)
+					{
+						if (parent->left_ == node)
+						{
+							delete node;
+							parent->left_ = left;
+						}
+						else
+						{
+							delete node;
+							parent->right_ = left;
+						}
+					}
+					else
+					{
+						if (node->left_->color_ == RED)
+						{
+							if (parent->left_ == node)
+							{
+								delete node;
+								parent->left_ = left;
+								parent->left_->color_ = BLACK;
+							}
+							else
+							{
+								delete node;
+								parent->right_ = left;
+								parent->right_->color_ = BLACK;
+							}
+						}
+						else
+						{
+							if (parent->left_ == node)
+							{
+								delete node;
+								parent->left_ = left;
+								parent->left_->color_ = BLACK_BLACK;
+								deleteBalance_(parent->left_);
+							}
+							else
+							{
+								delete node;
+								parent->right_ = left;
+								parent->right_->color_ = BLACK_BLACK;
+								deleteBalance_(parent->right_);
+							}
+						}
+					}
+					left->parent_ = parent;
+				}
+				else
+				{
+					Node* min = node->right_;
+					while (min->left_)
+						min = min->left_;
+					T a = min->key_;
+					deleteElement(min->key_);
+					node->key_ = a;
+				}
+			}
+		}
+	}
+public:
+	Tree() : root_{ nullptr } {}
+	~Tree() { deleteNode_(root_); }
+
 	Node* search(const T& key)const
 	{
 		Node* cur = root_;
@@ -280,39 +387,39 @@ public:
 		}
 		return cur;
 	}
-	
+
 	Node* left(T key)
 	{
 		Node* node = search(key);
 		return node->left_;
 	}
-	
+
 	Node* right(T key)
 	{
 		Node* node = search(key);
 		return node->right_;
 	}
-	
+
 	Node* parent(T key)
 	{
 		Node* node = search(key);
 		return node->parent_;
 	}
-	
+
 	Color color(T key)
 	{
 		Node* node = search(key);
 		return node->color_;
 	}
-	
+
 	Node* root()
 	{
 		return root_;
 	}
-	
-	unsigned int count()
+
+	size_t count()
 	{
-		return count_;
+		return root_->count();
 	}
 
 	friend ostream& operator << (ostream&stream, Tree& tree)
@@ -327,68 +434,6 @@ public:
 
 	void deleteElement(const T& key)
 	{
-		Node* cur = search(key);
-		if (cur == nullptr)
-			return;
-
-		if (cur->left_ == nullptr && cur->right_ == nullptr)
-		{
-			count_--;
-			if (cur->parent_->left_ == cur)
-				cur->parent_->left_ = nullptr;
-			else //if (cur->parent_->right_ == cur)
-				cur->parent_->right_ = nullptr;
-		}
-		else if (cur->left_ != nullptr && cur->right_ == nullptr)
-		{
-			count_--;
-			if (cur->color_ == RED)
-			{
-				if (cur->parent_->left_ == cur)
-					cur->parent_->left_ = cur->left_;
-				else cur->parent_->right_ = cur->left_;
-			}
-			else
-			{
-				if (cur->left_->color_ == RED)
-				{
-					if (cur->parent_->left_ == cur)
-					{
-						cur->parent_->left_ = cur->left_;
-						cur->parent_->left_->color_ = BLACK;
-					}
-					else
-					{
-						cur->parent_->right_ = cur->left_;
-						cur->parent_->right_->color_ = BLACK;
-					}
-				}
-				else
-				{
-					if (cur->parent_->left_ == cur)
-					{
-						cur->parent_->left_ = cur->left_;
-						cur->parent_->left_->color_ = BLACK_BLACK;
-						deleteBalance_(cur->parent_->left_);
-					}
-					else
-					{
-						cur->parent_->right_ = cur->left_;
-						cur->parent_->right_->color_ = BLACK_BLACK;
-						deleteBalance_(cur->parent_->right_);
-					}
-				}
-			}
-			cur->left_->parent_ = cur->parent_;
-		}
-		else
-		{
-			Node* min = cur->right_;
-			while (min->left_)
-				min = min->left_;
-			T a = min->key_;
-			deleteElement(min->key_);
-			cur->key_ = a;
-		}
+		deleteElement_(root_, key);
 	}
 };
