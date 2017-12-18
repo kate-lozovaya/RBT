@@ -5,64 +5,62 @@ using namespace std;
 
 enum Color{ RED, BLACK, BLACK_BLACK };
 
-template<typename T>
-struct Node
-{
-	Node<T> * left_;
-	Node<T> * right_;
-	Node<T> * parent_;
-	Color color_;
-	T key_;
-	Node(T const & key) : key_{ key }, left_{ nullptr }, right_{ nullptr }, parent_{ nullptr }, color_{ RED } {}
-};
 
 template<typename T>
 class Tree
 {
 private:
-	Node<T> * root_;
+	struct Node
+	{
+		Node* left_;
+		Node* right_;
+		Node* parent_;
+		Color color_;
+		T key_;
+		Node(T const & key) : key_{ key }, left_{ nullptr }, right_{ nullptr }, parent_{ nullptr }, color_{ RED } {}
+	} *root_;
 	unsigned count_;
 
-	void deleteNode_(Node<T> * node);
+	void deleteNode_(Node* node);
 
 	ostream& print_(ostream&stream);
-	ostream& print_(Node<T> * node, ostream&stream, size_t level)const;
+	ostream& print_(Node* node, ostream&stream, size_t level)const;
 
-	void insert_(Node<T> * node, const T& key);
-	void insertBalance_(Node<T> * cur);
+	void insert_(Node* node, const T& key);
+	void insertBalance_(Node* cur);
 
-	void changeColor_(Node<T> * node);
-	void rotateRight_(Node<T> * node);
-	void rotateLeft_(Node<T> * node);
-	Node<T> * sibling_(Node<T> * node);
+	void changeColor_(Node* node);
+	void rotateRight_(Node* node);
+	void rotateLeft_(Node* node);
+	Node* sibling_(Node* node);
 
-	void deleteBalance_(Node<T> * node);
+	void deleteBalance_(Node* node);
 public:
 	Tree();
 	~Tree();
 
-	Node<T> * search(const T& key)const;
-	Node<T> * left(T key)
+	Node* search(const T& key)const;
+	Node* left(T key)
 	{
-		Node<T> * node = search(key);
+		Node* node = search(key);
 		return node->left_;
 	}
-	Node<T> * right(T key)
+	Node* right(T key)
 	{
-		Node<T> * node = search(key);
+		Node* node = search(key);
 		return node->right_;
 	}
-	Node<T> * parent(T key)
+	Node* parent(T key)
 	{
-		Node<T> * node = search(key);
+		Node* node = search(key);
 		return node->parent_;
 	}
 	Color color(T key)
 	{
-		Node<T> * node = search(key);
+		Node* node = search(key);
 		return node->color_;
 	}
-	Node<T> * root()
+	Node* root()
 	{
 		return root_;
 	}
@@ -71,7 +69,7 @@ public:
 		return count_;
 	}
 
-	friend ostream& operator << (ostream&stream, Tree<T> & tree)
+	friend ostream& operator << (ostream&stream, Tree& tree)
 	{
 		return tree.print_(cout);
 	}
@@ -89,7 +87,7 @@ Tree<T>::~Tree()
 	deleteNode_(root_);
 }
 template<typename T>
-void Tree<T>::deleteNode_(Node<T> * node)
+void Tree<T>::deleteNode_(Node* node)
 {
 	if (node == nullptr) return;
 	deleteNode_(node->left_);
@@ -98,9 +96,9 @@ void Tree<T>::deleteNode_(Node<T> * node)
 }
 
 template<typename T>
-Node<T> * Tree<T>::search(const T& key)const
+Node* Tree<T>::search(const T& key)const
 {
-	Node<T> * cur = root_;
+	Node* cur = root_;
 	while (cur != nullptr)
 	{
 		if (cur->key_ == key)
@@ -122,9 +120,9 @@ ostream & Tree<T>::print_(ostream&stream)
 	return stream;
 }
 template<typename T>
-ostream & Tree<T>::print_(Node<T> * node, ostream&stream, size_t level)const
+ostream & Tree<T>::print_(Node* node, ostream&stream, size_t level)const
 {
-	Node<T> * cur = node;
+	Node* cur = node;
 	if (cur != nullptr)
 	{
 		string a;
@@ -146,10 +144,10 @@ void Tree<T>::insert(const T& key)
 	insert_(root_, key);
 }
 template<typename T>
-void Tree<T>::insert_(Node<T> * node, const T& key)
+void Tree<T>::insert_(Node* node, const T& key)
 {
-	Node<T> * parent = nullptr;
-	Node<T> * cur = node;
+	Node* parent = nullptr;
+	Node* cur = node;
 	while (cur)
 	{
 		parent = cur;
@@ -160,7 +158,7 @@ void Tree<T>::insert_(Node<T> * node, const T& key)
 		else //if (key > node->key_)
 			cur = cur->right_;
 	}
-	cur = new Node<T>(key);
+	cur = new Node(key);
 	count_++;
 	cur->parent_ = parent;
 	if (cur->parent_ == nullptr)
@@ -177,11 +175,11 @@ void Tree<T>::insert_(Node<T> * node, const T& key)
 	}
 }
 template<typename T>
-void Tree<T>::insertBalance_(Node<T> * cur)
+void Tree<T>::insertBalance_(Node* cur)
 {
 	while (cur != root_ && cur->parent_->color_ == RED && cur->color_ == RED)
 	{
-		Node<T> * uncle = nullptr;
+		Node* uncle = nullptr;
 		if (cur->parent_->parent_->left_ == cur->parent_)
 			uncle = cur->parent_->parent_->right_;
 		else uncle = cur->parent_->parent_->left_;
@@ -227,7 +225,7 @@ void Tree<T>::insertBalance_(Node<T> * cur)
 template<typename T>
 void Tree<T>::deleteElement(const T& key)
 {
-	Node<T> * cur = search(key);
+	Node* cur = search(key);
 	if (cur == nullptr)
 		return;
 
@@ -292,13 +290,13 @@ void Tree<T>::deleteElement(const T& key)
 	}
 }
 template<typename T>
-void Tree<T>::deleteBalance_(Node<T> * node)
+void Tree<T>::deleteBalance_(Node* node)
 {
-	Node<T> * cur = node;
+	Node* cur = node;
 
 	while (cur->color_ == BLACK_BLACK)
 	{
-		Node<T> * brother = sibling_(cur);
+		Node* brother = sibling_(cur);
 		if ((brother->left_ && brother->left_->color_ == RED) || (brother->right_ && brother->right_->color_ == RED))
 		{
 			if (cur->parent_->left_ == cur)
@@ -374,15 +372,15 @@ void Tree<T>::deleteBalance_(Node<T> * node)
 }
 
 template<typename T>
-void Tree<T>::changeColor_(Node<T> * node)
+void Tree<T>::changeColor_(Node* node)
 {
 	node->parent_->parent_->left_->color_ = node->parent_->parent_->right_->color_ = BLACK;
 	node->parent_->parent_->color_ = RED;
 }
 template<typename T>
-void Tree<T>::rotateRight_(Node<T> * node)
+void Tree<T>::rotateRight_(Node* node)
 {
-	Node<T> * a = node->left_;
+	Node* a = node->left_;
 	node->left_ = a->right_;
 	if (a->right_)
 		a->right_->parent_ = node;
@@ -398,7 +396,7 @@ void Tree<T>::rotateRight_(Node<T> * node)
 template<typename T>
 void Tree<T>::rotateLeft_(Node<T> * node)
 {
-	Node<T> * a = node->right_;
+	Node* a = node->right_;
 	node->right_ = a->left_;
 	if (a->left_)
 		a->left_->parent_ = node;
@@ -412,7 +410,7 @@ void Tree<T>::rotateLeft_(Node<T> * node)
 	node->parent_ = a;
 }
 template<typename T>
-Node<T> * Tree<T>::sibling_(Node<T> * node)
+Node* Tree<T>::sibling_(Node* node)
 {
 	if (node && node->parent_)
 	{
