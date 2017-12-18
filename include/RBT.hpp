@@ -96,7 +96,7 @@ void Tree<T>::deleteNode_(Node* node)
 }
 
 template<typename T>
-Node* Tree<T>::search(const T& key)const
+Node<T>* Tree<T>::search(const T& key)const
 {
 	Node* cur = root_;
 	while (cur != nullptr)
@@ -410,7 +410,7 @@ void Tree<T>::rotateLeft_(Node* node)
 	node->parent_ = a;
 }
 template<typename T>
-Node* Tree<T>::sibling_(Node* node)
+Node<T>* Tree<T>::sibling_(Node* node)
 {
 	if (node && node->parent_)
 	{
