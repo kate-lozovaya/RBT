@@ -394,7 +394,7 @@ void Tree<T>::rotateRight_(Node* node)
 	node->parent_ = a;
 }
 template<typename T>
-void Tree<T>::rotateLeft_(Node<T> * node)
+void Tree<T>::rotateLeft_(Node* node)
 {
 	Node* a = node->right_;
 	node->right_ = a->left_;
