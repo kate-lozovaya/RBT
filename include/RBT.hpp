@@ -1,21 +1,12 @@
 #include <iostream>
 #include<string>
 #include <stdexcept>
+#include "Counter.hpp"
 using namespace std;
 
 enum Color{ RED, BLACK, BLACK_BLACK };
 
-#ifndef Counter
-class Counter
-{
-protected:
-	size_t& Count() { static size_t counter = 0; return counter; }
 
-public:
-	Counter() { ++Count(); }
-	~Counter() { --Count(); }
-};
-#endif
 
 template<typename T>
 class Tree
