@@ -5,18 +5,17 @@ using namespace std;
 
 enum Color{ RED, BLACK, BLACK_BLACK };
 
+#ifndef Counter
 class Counter
 {
 protected:
-	size_t & count_()
-	{
-		static size_t counter = 0;
-		return counter;
-	}
+	size_t& Count() { static size_t counter = 0; return counter; }
+
 public:
-	Counter() { ++count_(); }
-	~Counter() { --count_(); }
+	Counter() { ++Count(); }
+	~Counter() { --Count(); }
 };
+#endif
 
 template<typename T>
 class Tree
