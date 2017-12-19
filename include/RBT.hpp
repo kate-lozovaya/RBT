@@ -278,7 +278,10 @@ private:
 			{
 				Node * parent = node->parent_;
 				if (node == root_ && !node->left_ && !node->right_)
+				{
 					delete node;
+					root = nullptr;
+				}
 				else if (node->left_ == nullptr && node->right_ == nullptr)
 				{
 					if (node->parent_->left_ == node)
