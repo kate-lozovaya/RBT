@@ -20,7 +20,7 @@ private:
 		Color color_;
 		T key_;
 		Node(T const & key) : key_{ key }, left_{ nullptr }, right_{ nullptr }, parent_{ nullptr }, color_{ RED } {}
-		size_t count() { return count_(); }
+		size_t count() { return Count(); }
 	} *root_;
 
 	void deleteNode_(Node* node)
