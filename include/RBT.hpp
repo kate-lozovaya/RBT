@@ -35,7 +35,7 @@ private:
 			root_ = nullptr;
 	}
 
-	ostream& print_(ostream&stream)
+	ostream& print_(ostream&stream)//работает не во всех случаях,иногда выдает исключения
 	{
 		print_(root_, stream, 0);
 		return stream;
